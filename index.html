@@ -386,15 +386,14 @@ input:checked + .option-label .price-label {
     
             
             options[0].style.border = "2px solid #ff6584"; 
-            inputs[0].checked = true; // Ensure the first option is selected
+            inputs[0].checked = true;
     
          
             inputs.forEach(input => {
                 input.addEventListener('change', function () {
                     options.forEach(option => {
-                        option.style.border = "1px solid #ccc"; // Reset all borders
-                    });
-                    this.closest('.option').style.border = "2px solid #ff6584"; // Apply pink border
+                        option.style.border = "1px solid #ccc";});
+                    this.closest('.option').style.border = "2px solid #ff6584"; 
                 });
             });
         });
