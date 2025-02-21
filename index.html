@@ -1,0 +1,404 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Assignment</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 400px;
+            margin: 20px auto;
+            padding: 20px;
+            background-color: #f5f5f5;
+        }
+
+        .title-container {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 14px;
+            font-weight: bold;
+            color: #ff6584;
+            margin-bottom: 15px;
+        }
+
+        span{
+            font-size: 15px;
+        }
+
+        .title-container::before,
+        .title-container::after {
+            content: "";
+            flex: 1;
+            height: 1px;
+            background-color: #ccc;
+            margin: 0 10px;
+        }
+        .free-delivery{
+            color: #ff6584;
+        }
+
+        .total-cost{
+            margin-top: 2px;
+            display: flex;  
+            width: 98%;
+            justify-content: space-between;
+            justify-items: center;
+            font-size: 15px;
+
+        }
+
+        .offer-container {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+            background-color: white;
+            border-radius: 8px;
+            padding: 12px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+        }
+
+        .option {
+            display: flex;
+            align-items: center;
+            border: 1px solid #ccc;
+            padding: 15px;
+            border-radius: 6px;
+            width: 90%;
+            position: relative;
+            cursor: pointer;
+            transition: 0.3s;
+        }
+
+        .option input {
+            appearance: none;
+            width: 18px;
+            height: 18px;
+            border: 2px solid #ff6584;
+            border-radius: 50%;
+            margin-right: 10px;
+            cursor: pointer;
+            position: relative;
+        }
+
+        .option input:checked {
+            background-color: white;
+            border: 5px solid #ff6584;
+        }
+
+        .option input:checked + .option-label .ribbon {
+            display: block;
+        }
+
+        .option-label {
+            display: flex;
+            align-items: center;
+            width: 100%;
+        }
+
+        .option-details {
+            display: flex;
+            justify-content: space-between;
+            width: 100%;
+            align-items: flex-start;
+        }
+
+        .unit{
+            font-size: 15px;
+        }
+
+        .unit-info {
+            display: flex;
+            flex-direction: column;
+            gap: 6px;
+        }
+
+        .discount {
+            display: none;
+            background-color: #ff6584;
+            color: white;
+            font-size: 12px;
+            font-weight: bold;
+            padding: 3px 8px;
+            border-radius: 5px;
+        }
+
+        .price-label {
+            font-size: 14px;
+            margin: 0;
+            color: gray;
+        }
+
+        .price-info {
+            display: flex;
+            flex-direction: column;
+            text-align: left;
+            gap:6px
+        }
+
+        .final-price {
+            font-size: 18px;
+            font-weight: bold;
+        }
+
+        .original-price {
+            color: gray;
+            font-size: 14px;
+            text-decoration: line-through;
+        }
+
+        /* Hide Standard Price and Show Empty Div when checked */
+.option input:checked ~ .option-label .price-label {
+    display: none;
+}
+
+.option input:checked ~ .option-label .empty-placeholder{
+    display: block;
+    height: 20px; /* Adjust as needed */
+}
+input:checked + .option-label .discount {
+    display: inline;
+}
+
+/* Hide dropdowns by default */ 
+.dropdowns {
+    display: none;
+}
+
+/* When the radio button is checked, show the dropdowns */
+input:checked + .option-label .dropdowns {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    margin-top: 4px;
+}
+
+/* Hide the standard price text when active */
+input:checked + .option-label .price-label {
+    display: none;
+}
+
+
+
+        .ribbon {
+            display: none;
+            position: absolute;
+            top: -10px;
+            right: 10px;
+            background-color: #ff6584;
+            color: white;
+            font-size: 12px;
+            font-weight: bold;
+            padding: 5px 10px;
+            border-radius: 4px;
+            transform: skew(-10deg);
+        }
+
+        .select-dropdown{
+            margin-top: 2px;
+            display: flex;
+            gap: 4px;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .select-dropdown1{
+            margin-top: 2px;
+            display: flex;
+            gap: 18px;
+            justify-content: flex-start;
+            align-items: center;
+        }
+
+        .add-to-cart {
+            background-color: #ff6584;
+            color: white;
+            border: none;
+            padding: 12px;
+            border-radius: 8px;
+            cursor: pointer;
+            width: 100%;
+            font-size: 16px;
+            margin-top: 15px;
+        }
+
+        .size-dropdown, .color-dropdown {
+    padding: 5px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+}
+
+        .add-to-cart:hover {
+            background-color: #d81b60;
+        }
+
+        .powered-by {
+            text-align: center;
+            color: #999;
+            font-size: 12px;
+            margin-top: 15px;
+        }
+    </style>
+</head>
+<body>
+    <div class="title-container">
+        <h2>YAY! It’s BOGO</h2>
+    </div>
+
+    <div class="offer-container">
+        <!-- Option 1 -->
+        <div class="option">
+            <input type="radio" name="unit" id="unit1" checked>
+            <label for="unit1" class="option-label">
+                <div class="ribbon">BEST DEAL</div>
+              
+                <div class="option-details">
+                    <div class="unit-info">
+                        <div>
+                            <span class="unit"><strong>1 Unit</strong></span>
+                            <span class="discount">10% Off</span>
+                        </div>
+                        <p class="price-label">Standard Price</p>
+                      
+                            <div class="dropdowns">
+                                <div class="select-dropdown1">
+                                    <span>Size</span>
+                                    <span>Color</span>
+                                </div>
+                                <div class="select-dropdown">
+                                    <select class="size-dropdown">
+                                        <option>S</option>
+                                        <option>M</option>
+                                        <option>L</option>
+                                    </select>
+                                    <select class="color-dropdown">
+                                        <option>Black</option>
+                                        <option>White</option>
+                                        <option>Red</option>
+                                    </select>
+                                </div>
+                              
+                            </div>
+
+                       
+                    </div>
+                    <div class="price-info">
+                        <strong class="final-price">$10.00 USD</strong>
+                        <s class="original-price">$24.00 USD</s>
+                    </div>
+                </div>
+            </label>
+        </div>
+
+        <!-- Option 2 -->
+        <div class="option">
+            <input type="radio" name="unit" id="unit2">
+            <label for="unit2" class="option-label">
+                  <div class="ribbon">MOST POPULAR</div>
+              
+                <div class="option-details">
+                    <div class="unit-info">
+                        <div>
+                            <span class="unit"><strong>2 Unit</strong></span>
+                            <span class="discount">20% Off</span>
+                        </div>
+                        <p class="price-label">Standard Price</p>
+                        <div class="dropdowns">
+                            <div class="select-dropdown1">
+                                <span>Size</span>
+                                <span>Color</span>
+                            </div>
+                            <div class="select-dropdown">
+                                <select class="size-dropdown">
+                                    <option>S</option>
+                                    <option>M</option>
+                                    <option>L</option>
+                                </select>
+                                <select class="color-dropdown">
+                                    <option>Black</option>
+                                    <option>White</option>
+                                    <option>Red</option>
+                                </select>
+                            </div>
+                          
+                        </div> 
+                    </div>
+                    <div class="price-info">
+                        <strong class="final-price">$18.00 USD</strong>
+                        <s class="original-price">$30.00 USD</s>
+                    </div>
+                </div>
+            </label>
+        </div>
+
+        <!-- Option 3 -->
+        <div class="option">
+            <input type="radio" name="unit" id="unit3">
+            <label for="unit3" class="option-label">
+                <div class="ribbon">LIMITED TIME</div>
+                <div class="option-details">
+                    <div class="unit-info">
+                        <div>
+                            <span class="unit"><strong>3 Unit</strong></span>
+                            <span class="discount">30% Off</span>
+                        </div>
+                        <p class="price-label">Standard Price</p>
+                        <div class="dropdowns">
+                            <div class="select-dropdown1">
+                                <span>Size</span>
+                                <span>Color</span>
+                            </div>
+                            <div class="select-dropdown">
+                                <select class="size-dropdown">
+                                    <option>S</option>
+                                    <option>M</option>
+                                    <option>L</option>
+                                </select>
+                                <select class="color-dropdown">
+                                    <option>Black</option>
+                                    <option>White</option>
+                                    <option>Red</option>
+                                </select>
+                            </div>
+                          
+                        </div>
+                    </div>
+                    <div class="price-info">
+                        <strong class="final-price">$25.00 USD</strong>
+                        <s class="original-price">$36.00 USD</s>
+                    </div>
+                </div>
+            </label>
+        </div>
+        <div class="total-cost">
+            <div class="free-delivery">Free Delivery</div>
+            <div class="">Total: $18.00 USD</div>
+        </div>
+        <button class="add-to-cart">Add to Cart</button>
+       
+    </div>
+
+  
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            const options = document.querySelectorAll('.option');
+            const inputs = document.querySelectorAll('.option input');
+    
+            
+            options[0].style.border = "2px solid #ff6584"; 
+            inputs[0].checked = true; // Ensure the first option is selected
+    
+         
+            inputs.forEach(input => {
+                input.addEventListener('change', function () {
+                    options.forEach(option => {
+                        option.style.border = "1px solid #ccc"; // Reset all borders
+                    });
+                    this.closest('.option').style.border = "2px solid #ff6584"; // Apply pink border
+                });
+            });
+        });
+    </script>
+    
+</body>
+</html>
